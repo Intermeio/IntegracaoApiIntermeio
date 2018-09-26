@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row" style="margin-top:20px">
+    <div class="jumbotron col-md-12" style="margin-top:20px">
+        <p class="col-md-3">
+            <input type="button" id="btnGerarToken" class="btn btn-primary btn-lg form-control" value="Gerar Token &raquo;" />
+        </p>
+        <div class="col-md-8">
+            <input type="text" id="txtToken" class="form-control" style="width:100%" />
+        </div>
+        <div class="row">
+            <textarea class="form-control" id="txtAreaToken" rows="5" style="width:100%"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron col-md-12">
+        <p>
+            <input type="button" id="btnGerarBoleto" class="btn btn-primary btn-lg form-control" value="Gerar Boleto Dados Mokado &raquo;" />
+        </p>
+
+        <div class="row">
+            <textarea class="form-control" rows="5" id="txtAreaBoleto" style="width:100%"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron">
+
+        <p class="col-md-6">
+            <input type="button" id="btnGerarBoletoToken" class="btn btn-primary btn-lg form-control" value="Gerar Boleto Mokado Passando Token &raquo;" />
+
+            <div class="col-md-6">
+                <input type="text" id="txtTokenBoleto" class="form-control" style="width:100%" />
+            </div>
+        </p>
+        <p class="row">
+            <textarea class="form-control" rows="5" id="txtAreaBoletoToken" style="width:100%"></textarea>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron col-md-12">
+        <p class="col-md-12">
+            <input type="button" id="btnGerarBoletoLote" class="btn btn-primary btn-lg form-control" value="Gerar BoletoLote Dados Mokado &raquo;" />
+        </p>
+        <div class="row">
+            <textarea class="form-control" rows="5" id="txtAreBoletoLote" style="width:100%"></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron">
+        <p class="col-md-6">
+            <input type="button" id="btnGerarBoletoLoteToken" class="btn btn-primary btn-lg form-control" value="Gerar Boleto Lote Mokado Passando Token &raquo;" />
+        </p>
+        <div class="col-md-6">
+            <input type="text" id="txtTokenBoletoLote" class="form-control" style="width:100%" />
+        </div>
+
+
+        <p class="row" style="margin-top:20px">
+            <textarea class="form-control" rows="5" id="txtAreaBoletoLoteToken" style="width:100%"></textarea>
+        </p>
+
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 70px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+            <img src="~/Content/Img/demo_wait.gif" />
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    @Html.Partial("~/Views/Scripts/IndexJavaScripts.js.cshtml")
+}

@@ -1,0 +1,43 @@
+﻿<script type="text/javascript">
+    var ModuloDocumentacao = ModuloDocumentacao || {};
+
+    jQuery(document).ready(function () {
+        ModuloDocumentacao.RegistrarEventos();
+
+        $(document).ready(function () {
+            $('.img-responsive').on("click", function () {
+                $(this).toggleClass('maxSize')
+            });
+        });
+    });
+
+    ModuloDocumentacao.RegistrarEventos = function () {
+        jQuery(document).on("click", "#MenuIntroducaoNuget", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloUtilizarPacoteNuget");
+        });
+        jQuery(document).on("click", "#MenuConfiguracaoDadosCliente", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloConfiguracaoDadosCliente");
+        });
+        jQuery(document).on("click", "#MenuGerarToken", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloGerarToken");
+        });
+        jQuery(document).on("click", "#MenuMontarObjetoBoleto", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloMontarObjetoBoleto");
+        });        
+        jQuery(document).on("click", "#MenuGerarBoletoUnitario", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloGerarBoletoUnitario");
+        });
+      
+
+    };
+
+    ModuloDocumentacao.ExibirMenu = function (menu) {
+        jQuery("#moduloGerarToken").hide();
+        jQuery("#moduloGerarBoletoUnitario").hide(); 
+        jQuery("#moduloUtilizarPacoteNuget").hide();
+        jQuery("#moduloConfiguracaoDadosCliente").hide();
+        jQuery("#moduloMontarObjetoBoleto").hide();
+        jQuery(menu).show();
+    }
+
+</script>

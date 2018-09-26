@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Documetação Nuget";
+}
+<section>
+    <div class="content container" style="margin-top:60px">
+        <div class="row">
+            <div class="col-md-3">
+                @Html.Partial("~/Views/Shared/_PartialMenuDocumentacao.cshtml")
+            </div>
+                       
+            <div id="divConteudo" class="col-md-8">
+                <div id="moduloUtilizarPacoteNuget">
+                    @Html.Partial("~/Views/Documentacao/_PartialUtilizarPacoteNuget.cshtml")
+                </div>
+                <div id="moduloConfiguracaoDadosCliente" hidden>
+                    @Html.Partial("~/Views/Documentacao/_PartialConfiguracaoDadosCliente.cshtml")
+                </div>
+                <div id="moduloGerarToken" hidden>
+                    @Html.Partial("~/Views/Documentacao/_PartialGerarToken.cshtml")
+                </div>
+                <div id="moduloMontarObjetoBoleto" hidden>
+                    @Html.Partial("~/Views/Documentacao/_PartialMontarObjetoBoleto.cshtml")
+                </div>
+                <div id="moduloGerarBoletoUnitario" hidden>
+                    @Html.Partial("~/Views/Documentacao/_PartialGerarBoletoUnitario.cshtml")
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+@section scripts {
+    @Html.Partial("~/Views/Scripts/Documentacao.js.cshtml")
+}

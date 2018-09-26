@@ -1,0 +1,161 @@
+﻿<script type="text/javascript">
+    var ModuloIndex = ModuloIndex || {};
+
+    jQuery(document).ready(function () {
+        ModuloIndex.RegistrarEventos();
+    });
+
+    ModuloIndex.RegistrarEventos = function () {
+
+        jQuery(document).on("click", "#btnGerarToken", function () {
+            ModuloIndex.GerarToken();
+        });
+
+        jQuery(document).on("click", "#btnGerarBoleto", function () {
+            ModuloIndex.GerarBoleto();
+        });
+
+        jQuery(document).on("click", "#btnGerarBoletoToken", function () {
+            ModuloIndex.GerarBoletoToken();
+        });
+
+        jQuery(document).on("click", "#btnGerarBoletoLote", function () {
+            ModuloIndex.GerarBoletoLote();
+        });
+
+        jQuery(document).on("click", "#btnGerarBoletoLoteToken", function () {
+            ModuloIndex.GerarBoletoLoteToken();
+        });
+
+    };
+
+       ModuloIndex.GerarToken = function () {
+           jQuery('.modal').modal('show');
+           jQuery("#txtToken").html('');
+           jQuery("#txtAreaToken").html('');
+           jQuery.ajax({
+            method: 'POST',
+            url: '@Url.Action("GerarToken","Home")'
+           }).done(function (dataAjax) {
+             //  jQuery("#txtAreaToken").append(JSON.stringify(dataAjax));
+            jQuery("#txtAreaToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
+            jQuery("#txtAreaToken").append('Paginação: ' + dataAjax.Paginacao + ' \n');
+            if (dataAjax.Resultado != null) {
+                jQuery("#txtToken").val(dataAjax.Resultado.Token);
+                jQuery("#txtAreaToken").append('Token: ' + dataAjax.Resultado.Token + '\n');
+            } else {
+                jQuery("#txtAreaToken").append('Resultado: ' + dataAjax.Resultado + ' \n');
+               }
+              jQuery('.modal').modal('hide');
+        });
+    };
+
+    ModuloIndex.GerarBoleto = function () {
+        jQuery('.modal').modal('show');
+        jQuery("#txtAreaBoleto").html('');
+        jQuery.ajax({
+                method: "POST",
+                url: '@Url.Action("GerarBoleto", "Home")'
+            }).done(function (dataAjax) {
+                jQuery("#txtAreaBoleto").append('Requisição: ' + dataAjax.Requisicao + ' \n');
+                jQuery("#txtAreaBoleto").append('Paginação:  ' + dataAjax.Paginacao + ' \n');
+                jQuery("#txtAreaBoleto").append('HashBoleto:  ' + dataAjax.Resultado.HashBoleto + ' \n');
+                jQuery("#txtAreaBoleto").append('HashSimplificado:  ' + dataAjax.Resultado.HashSimplificado + ' \n');
+                jQuery("#txtAreaBoleto").append('LinhaDigitavel:  ' + dataAjax.Resultado.LinhaDigitavel + ' \n');
+                jQuery("#txtAreaBoleto").append('CodigoDeBarras:  ' + dataAjax.Resultado.CodigoDeBarras + ' \n');
+                jQuery("#txtAreaBoleto").append('NossoNumero:  ' + dataAjax.Resultado.NossoNumero + ' \n');
+                jQuery("#txtAreaBoleto").append('RefNumeroDocumento:  ' + dataAjax.Resultado.RefNumeroDocumento + ' \n');
+                jQuery("#txtAreaBoleto").append('RefToken:  ' + dataAjax.Resultado.RefToken + ' \n');
+                jQuery("#txtAreaBoleto").append('Split:  ' + dataAjax.Resultado.Split + ' \n');
+                jQuery("#txtAreaBoleto").append('caminhoBoleto:  ' + dataAjax.Resultado.caminhoBoleto + ' \n');
+                jQuery('.modal').modal('hide');
+                window.open('http://intermeio.com.br/Boleto/' + dataAjax.Resultado.HashBoleto, "_blank");
+
+            });
+
+        };
+
+
+    ModuloIndex.GerarBoletoToken = function () {
+
+        jQuery("#txtAreaBoletoToken").html('');
+        var token = jQuery("#txtTokenBoleto").val();
+        if (token == "") {
+            alert('Informe um token.');
+        } else {
+            jQuery('.modal').modal('show');
+        jQuery.ajax({
+            method: 'POST',
+            url: '@Url.Action("GerarBoletoToken", "Home")',
+            data: { token : token}
+        }).done(function (dataAjax) {
+
+            jQuery("#txtAreaBoletoToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
+            jQuery("#txtAreaBoletoToken").append('Paginação:  ' + dataAjax.Paginacao + ' \n');
+            if (dataAjax.Resultado != null) {
+                jQuery("#txtAreaBoletoToken").append('HashBoleto:  ' + dataAjax.Resultado.HashBoleto + ' \n');
+                jQuery("#txtAreaBoletoToken").append('HashSimplificado:  ' + dataAjax.Resultado.HashSimplificado + ' \n');
+                jQuery("#txtAreaBoletoToken").append('LinhaDigitavel:  ' + dataAjax.Resultado.LinhaDigitavel + ' \n');
+                jQuery("#txtAreaBoletoToken").append('CodigoDeBarras:  ' + dataAjax.Resultado.CodigoDeBarras + ' \n');
+                jQuery("#txtAreaBoletoToken").append('NossoNumero:  ' + dataAjax.Resultado.NossoNumero + ' \n');
+                jQuery("#txtAreaBoletoToken").append('RefNumeroDocumento:  ' + dataAjax.Resultado.RefNumeroDocumento + ' \n');
+                jQuery("#txtAreaBoletoToken").append('RefToken:  ' + dataAjax.Resultado.RefToken + ' \n');
+                jQuery("#txtAreaBoletoToken").append('Split:  ' + dataAjax.Resultado.Split + ' \n');
+                jQuery("#txtAreaBoletoToken").append('caminhoBoleto:  ' + dataAjax.Resultado.caminhoBoleto + ' \n');
+                jQuery('.modal').modal('hide');
+                window.open('http://intermeio.com.br/Boleto/' + dataAjax.Resultado.HashBoleto, "_blank");
+            } else {
+                jQuery("#txtAreaBoletoToken").append('Resultado: ' + dataAjax.Resultado + ' \n');
+            }
+            jQuery('.modal').modal('hide');
+            });
+
+        }
+
+    }
+
+    ModuloIndex.GerarBoletoLote = function () {
+        jQuery('.modal').modal('show');
+            jQuery("#txtAreBoletoLote").html('');
+            jQuery.ajax({
+                method: "POST",
+                url: '@Url.Action("GerarBoletoLote", "Home")'
+            }).done(function (dataAjax) {
+                jQuery("#txtAreBoletoLote").append('Requisição: ' + dataAjax.Requisicao + ' \n');
+                jQuery("#txtAreBoletoLote").append('Paginação:' + dataAjax.Paginacao + ' \n');
+                jQuery("#txtAreBoletoLote").append('Descrição:' + dataAjax.Resultado.descricao + ' \n');
+                jQuery("#txtAreBoletoLote").append('LoteId:' + dataAjax.Resultado.loteId + ' \n');
+                jQuery('.modal').modal('hide');
+            });
+
+        };
+
+
+    ModuloIndex.GerarBoletoLoteToken = function () {
+       
+        jQuery("#txtAreaBoletoLoteToken").html('');
+        var token = jQuery("#txtTokenBoletoLote").val()
+        if (token == "") {
+            alert('Informe um token');
+        } else {
+            jQuery('.modal').modal('show');
+            jQuery.ajax({
+                method: 'POST',
+                url: '@Url.Action("GerarBoletoLoteToken", "Home")',
+                data: { token: token },
+            }).done(function (dataAjax) {
+                jQuery("#txtAreaBoletoLoteToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
+                jQuery("#txtAreaBoletoLoteToken").append('Paginação:' + dataAjax.Paginacao + ' \n');
+                if (dataAjax.Resultado != null) {
+                    jQuery("#txtAreaBoletoLoteToken").append('Descrição:' + dataAjax.Resultado.descricao + ' \n');
+                    jQuery("#txtAreaBoletoLoteToken").append('LoteId:' + dataAjax.Resultado.loteId + ' \n');
+                } else {
+                    jQuery("#txtAreaBoletoLoteToken").append('Resultado: ' + dataAjax.Resultado + ' \n');
+                }
+                jQuery('.modal').modal('hide');
+            });
+        }
+    }
+
+
+</script>

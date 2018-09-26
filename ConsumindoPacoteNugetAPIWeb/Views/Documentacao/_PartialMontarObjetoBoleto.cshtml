@@ -1,0 +1,161 @@
+﻿<h3>Como Montar um Boleto</h3>
+<p>
+    Este boleto pode ser montado de varias formas vou apresentar uma:
+</p>
+
+<strong>
+
+    <span class="comentario"> //Criando um methodo que vai retornar o Objeto ja preenchido</span><br />
+    private API.Intermeio.Models.BoletoModel MontarBoleto()<br />
+    {<br /><br />
+
+    <span class="comentario">//Criando o objeto modelo onde será passado objetos do tipo Boleto, Cliente, SplitModel, Configuracoes</span><br /><br />
+    var boleto = new API.Intermeio.Models.BoletoModel();<br /><br />
+
+    <span class="comentario">//Criando um objeto do tipo Boleto e adicionando no modelo</span><br />
+    <span class="comentario">//Estou colocando um exemplo com dados fictícios</span><br />
+    boleto.Boleto = new API.Intermeio.Models.Boleto()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DataVencimento = "10/10/2020",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NumeroDocumento = "123456789",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;PercentualJuros = "0",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;PercentualMulta = "0",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;QntDiasJuros = 0,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;QntDiasMulta = 0,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Valor = "020", //Ex: R$ 0,20 caso queira colocar um valor de R$ 4500,68 colocar número inteiro sem pontuação Ex.450068<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ValorJuros = 0<br />
+    };<br /><br />
+
+    <span class="comentario">//Criando um objeto do tipo Cliente e adicionando no modelo</span><br />
+    <span class="comentario">//Estou colocando um exemplo com dados fictícios</span><br />
+    boleto.Cliente = new API.Intermeio.Models.Cliente()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NomeRazao = "Zezinho Juarez",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ApelidoEndereco = "endereco 01",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Bairro = "Tatuape",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Celular = "11944445555",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CEP = "03633020",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Cidade = "Sao Paulo",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Complemento = "Casa",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CpfCnpj = "43122377861",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DataDeNascimento = "27/02/1987",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Email = "jose@gmail.com",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Endereco = "Francisco Gonzales",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Estado = "SP",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Logradouro = "Rua",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Sexo = "M",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Numero = "94"<br />
+    };<br /><br />
+
+    <span class="comentario">//Este Objeto não é obrigatório, caso deseje fazer um split</span><br />
+    <span class="comentario">//Criando um Objeto Split Model</span><br />
+    var split = new API.Intermeio.Models.SplitModel();<br />
+    <span class="comentario">//Este parametro e muito importante quando está marcado como true, qualquer erro que houver na hora do split ele aborta o processo de geração do boleto</span><br />
+    split.AbortarEmCasoDeErro = true;<br />
+    <span class="comentario">//Dentro do Split um dos objetos que ele recebe é uma lista de clientes, aqui estamos criando uma lista para preencher 2 clientes</span><br />
+    var clientesSplit = new List<'API.Intermeio.Models.SplitCliente>();<br />
+    <span class="comentario">//Criando o primeiro objeto do cliente que vai ficar dentro do Split</span><br />
+    var clientSplit = new API.Intermeio.Models.SplitCliente()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NomeRazao = "Fabio Santos",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CpfCnpj = "43122377861",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Descricao = "teste",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Email = "teste@teste.com.br",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Taxa = "16",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NotificarPorEmail = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NotificarPorSms = false,<br />
+    <span class="comentario">//Criando um objeto lista do tipo telefone onde 1 cliente pode ter varios telefones</span><br />
+    Telefones = new List<'API.Intermeio.Models.Telefone>()<br />
+    {<br />
+    <span class="comentario">//Criando objeto do tipo telefone</span><br />
+    new API.Intermeio.Models.Telefone()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Apelido = "Fabio",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DDD = "11",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Numero = "988886666"<br />
+    }<br />
+    },<br />
+    <span class="comentario">//Criar o objeto do tipo conta do cliente para o split</span><br />
+    ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Conta = "11111",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DigConta = "1",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Agencia = "2222",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DigAgencia = "2",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CodigoBanco = "12345"<br />
+    },<br />
+    <span class="comentario">//Criando um objeto do tipo transferência automatica</span><br />
+    TransferenciaAutomatica = new API.Intermeio.Models.TransferenciaAutomatica()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ACobrar = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;EfetuarTefAutomatica = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Periodicidade = 1,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ValorMinimo = "100"<br />
+    }<br />
+    };<br />
+    <span class="comentario">//Criando o segundo objeto do tipo cliente split</span><br />
+    var clientSplit2 = new API.Intermeio.Models.SplitCliente()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NomeRazao = "Fulano da Silva",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CpfCnpj = "43122377861",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Descricao = "teste",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Email = "Fulano@teste.com.br",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Taxa = "20",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NotificarPorEmail = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;NotificarPorSms = true,<br />
+    <span class="comentario">//Criando objeto do tipo telefone para o segundo cliente split</span><br />
+    Telefones = new List<'API.Intermeio.Models.Telefone>()<br />
+    {<br />
+    new API.Intermeio.Models.Telefone()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Apelido = "Split 2",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DDD = "11",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Numero = "922221111"<br />
+    }<br />
+    },<br />
+    <span class="comentario">//Criar o objeto do tipo conta para o segundo cliente split</span><br />
+    ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Conta = "11111",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DigConta = "1",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Agencia = "2222",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;DigAgencia = "2",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;CodigoBanco = "12345"<br />
+    },<br />
+    <span class="comentario">//Criando um objeto do tipo transferência automatica para o segundo cliente split</span><br />
+    TransferenciaAutomatica = new API.Intermeio.Models.TransferenciaAutomatica()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ACobrar = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;EfetuarTefAutomatica = true,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Periodicidade = 1,<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;ValorMinimo = "100"<br />
+    }<br />
+    };<br />
+    <span class="comentario">//Adicionando na lista de split o cliente 1 e 2</span><br />
+    clientesSplit.Add(clientSplit);<br />
+    clientesSplit.Add(clientSplit2);<br />
+    <span class="comentario">//Adicionando no obejto Split Model o split preenchido com os dados dos clientes</span><br />
+    split.Clientes = clientesSplit;<br />
+    <span class="comentario">//Adicionando o objeto split no modelo boleto</span>
+    boleto.Split = split;<br />
+    <span class="comentario">//Criando objeto configurações do modelo boleto</span><br />
+    var configuracoes = new API.Intermeio.Models.Configuracoes()<br />
+    {<br />
+    <span class="comentario">//Criando um objeto Emissão Digital para enviar Sms e email para o cliente</span><br />
+    EmissaoDigital = new API.Intermeio.Models.EmissaoDigital()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Email = "teste@live.com",<br />
+    <span class="comentario">//Criando um objeto SMS</span><br />
+    Sms = new API.Intermeio.Models.Sms()<br />
+    {<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Celular = "11977446699",<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;Msg = "Teste Via API classe de teste"<br />
+    }<br />
+    }<br />
+    };<br />
+    <span class="comentario">//Adicionado as configurações do boleto no objeto Boleto</span><br />
+    boleto.Configuracoes = configuracoes;<br />
+    <span class="comentario">//Retornando o objeto(Boleto) todo preenchido pronto para gerar o boleto</span><br />
+    return boleto;<br />
+    }<br />
+</strong>
