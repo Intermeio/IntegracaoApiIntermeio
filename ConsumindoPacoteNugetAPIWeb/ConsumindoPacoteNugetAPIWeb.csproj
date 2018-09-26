@@ -170,7 +170,13 @@
     <Content Include="Content\Img\GerarToken.png" />
     <Content Include="Content\Img\InstalacaoNuget.png" />
     <Content Include="Content\Img\InstalacaoNuget2.png" />
+    <Content Include="Content\Img\JsonGerarBoleto.png" />
+    <Content Include="Content\Img\JsonGerarBoletoLote.png" />
     <Content Include="Content\Img\JsonTokenSucesso.png" />
+    <Content Include="Content\Img\TransmitirBoleto.png" />
+    <Content Include="Content\Img\TransmitirBoletoLote.png" />
+    <Content Include="Content\Img\TransmitirBoletoLoteToken.png" />
+    <Content Include="Content\Img\TransmitirBoletoToken.png" />
     <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -213,6 +219,7 @@
     <Content Include="Views\Documentacao\_PartialUtilizarPacoteNuget.cshtml" />
     <Content Include="Views\Documentacao\_PartialConfiguracaoDadosCliente.cshtml" />
     <Content Include="Views\Documentacao\_PartialMontarObjetoBoleto.cshtml" />
+    <Content Include="Views\Documentacao\_PartialGerarBoletoLote.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -29,226 +29,166 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Responável por gerar um token para passar em alguns methodos
+        /// </summary>
+        /// <returns>Json</returns>
         [HttpPost]
         public JsonResult GerarToken()
         {
             //Criação de um objeto que vai recuperar o retorno da API
             var retorno = new API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoToken>();
-            //Criar uma instancia do Objeto Token Business responsavel por gerar o token
+
+            //Criar uma instancia do Objeto Token Business responsável por gerar o token
             //Na criação do Objeto e obrigatorio passar o objeto de configuração do cliente
             var tokenBusiness = new API.Intermeio.Business.TokenBusiness(_configuracao);
+
             //Com o objeto instaciado e passado os parametros de configuração podemos chamar o methodo para recuperar os dados Token
             retorno = tokenBusiness.RetornaToken();
 
-            //Aqui usamos apenas um modelo para retornar um JSON para a view.
+            //Aqui retornamos o objeto recebido como resposta ao methodo invocado e convertemos em Json enviamos para a view.
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// Este exemplo não precisa passar um token, como parametro de entrar ele fica responsável por gerar um token
+        /// </summary>
+        /// <returns>Json</returns>
         [HttpPost]
         public JsonResult GerarBoleto()
         {
+            //Criação de um objeto que vai recuperar o retorno da API
+            var retorno = new API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoBoleto>();
 
-            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao).GerarBoleto(MontarBoleto());
+            //Criar uma instancia do Objeto Boleto Business responsável por gerar o boleto
+            //Na criação do Objeto e obrigatorio passar o objeto de configuração do cliente
+            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao);
 
-            return Json(boletoBuisiness, JsonRequestBehavior.AllowGet);
+            //Chamar um methodo que monta o boleto, como explicado no menu Gerar Boleto
+            API.Intermeio.Models.BoletoModel boleto = MontarBoleto();
+
+            //Com o objeto instaciado e passado os parâmetros de configuração podemos chamar o methodo para transmitir o boleto
+            retorno = boletoBuisiness.GerarBoleto(boleto);
+
+            //Aqui retornamos o objeto recebido como resposta ao methodo invocado e convertemos em Json e enviamos para a view.
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
+        /// <summary>
+        /// Este exemplo é para você que já tem um token e gostaria de usar.
+        /// </summary>
+        /// <param name="token">Token válido do tipo GUID</param>
+        /// <returns>Json</returns>
         [HttpPost]
         public JsonResult GerarBoletoToken(string token)
         {
+            //Criação de um objeto que vai recuperar o retorno da API
+            var retorno = new API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoBoleto>();
 
-            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao).GerarBoleto(MontarBoleto(), token);
+            //Criar uma instancia do Objeto Boleto Business responsável por gerar o boleto
+            //Na criação do Objeto e obrigatório passar o objeto de configuração do cliente
+            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao);
 
-            return Json(boletoBuisiness, JsonRequestBehavior.AllowGet);
+            //Chamar um methodo que monta o boleto, como explicado no menu Gerar Boleto
+            API.Intermeio.Models.BoletoModel boleto = MontarBoleto();
+
+            //Com o objeto instaciado e passado os parâmetros de configuração podemos chamar o methodo para transmitir o boleto
+            //Aqui passamos um parâmetro a mais que é o token
+            retorno = boletoBuisiness.GerarBoleto(boleto, token);
+
+            //Aqui retornamos o objeto recebido como resposta ao methodo invocado e convertemos em Json e enviamos para a view.
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// Este exemplo não precisa passar um token, como parâmetro de entrar ele fica responsável por gerar um token
+        /// </summary>
+        /// <returns>Json</returns>
         [HttpPost]
         public JsonResult GerarBoletoLote()
         {
+            var retorno = new API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoLote>();
+
+            //Este Objeto espera uma lista de boletos para fazer a transmissão, ele que será passado como parâmetro
             API.Intermeio.Models.BoletoLoteModel boletolote = new API.Intermeio.Models.BoletoLoteModel();
+
+            //Criamos um objeto do tipo lista de Boleto
             List<API.Intermeio.Models.BoletoModel> boletos = new List<API.Intermeio.Models.BoletoModel>();
+
+            //Este exemplo vai adicionar na lista de boletos 4 itens do tipo boletoModel com todas as informações que um boleto
+            //precisa para ser transmitido;
             for (int i = 0; i < 4; i++)
             {
                 boletos.Add(MontarBoleto());
             }
 
+            //Vamos adicionar a lista de boletos populada para o objeto que vai fazer a transmissão de boleto em lote
             boletolote.Boletos = boletos;
 
-            API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoLote> boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao).GerarBoletoLote(boletolote);
+            //Criar uma instancia do Objeto Boleto Business responsável por gerar o boleto em lote
+            //Na criação do Objeto e obrigatorio passar o objeto de configuração do cliente
+            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao);
 
-            return Json(boletoBuisiness, JsonRequestBehavior.AllowGet);
+            //Com o objeto instaciado e passado os parametros de configuração podemos chamar o methodo para transmitir o boleto em lote
+            retorno = boletoBuisiness.GerarBoletoLote(boletolote);
+
+            //Aqui retornamos o objeto recebido como resposta ao methodo invocado e convertemos em Json enviamos para a view.
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
+
+        /// <summary>
+        /// Este exemplo é para você que já tem um token e gostaria de usar.
+        /// </summary>
+        /// <param name="token">Token válido do tipo GUID</param>
+        /// <returns>Json</returns>
         [HttpPost]
         public JsonResult GerarBoletoLoteToken(string token)
         {
+            var retorno = new API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoLote>();
 
+            //Este Objeto espera uma lista de boletos para fazer a transmissão, ele que será passado como parâmetro
             API.Intermeio.Models.BoletoLoteModel boletolote = new API.Intermeio.Models.BoletoLoteModel();
+
+            //Criamos um objeto do tipo lista de Boleto
             List<API.Intermeio.Models.BoletoModel> boletos = new List<API.Intermeio.Models.BoletoModel>();
+
+            //Este exemplo vai adicionar na lista de boletos 4 itens do tipo boletoModel com todas as informações que um boleto
+            //precisa para ser transmitido;
             for (int i = 0; i < 4; i++)
             {
                 boletos.Add(MontarBoleto());
             }
 
+            //Vamos adicionar a lista de boletos populada para o objeto que vai fazer a transmissão de boleto em lote
             boletolote.Boletos = boletos;
 
-            API.Intermeio.Models.RetornoAPI<API.Intermeio.Models.RetornoLote> boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao).GerarBoletoLote(boletolote, token);
+            //Criar uma instancia do Objeto Boleto Business responsável por gerar o boleto em lote
+            //Na criação do Objeto e obrigatório passar o objeto de configuração do cliente
+            var boletoBuisiness = new API.Intermeio.Business.BoletoBusiness(_configuracao);
 
-            return Json(boletoBuisiness, JsonRequestBehavior.AllowGet);
+            //Com o objeto instaciado e passado os parâmetros de configuração podemos chamar o methodo para transmitir o boleto em lote
+            //Aqui passamos um parâmetro a mais que é o token
+            retorno = boletoBuisiness.GerarBoletoLote(boletolote, token);
+
+            //Aqui retornamos o objeto recebido como resposta ao methodo invocado e convertemos em Json enviamos para a view.
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
-
-        //private API.Intermeio.Models.BoletoModel MontarBoleto()
-        //{
-        //    var boleto = new API.Intermeio.Models.BoletoModel();
-
-        //    Random random = new Random();
-
-
-        //    boleto.Boleto = new API.Intermeio.Models.Boleto()
-        //    {
-        //        DataVencimento = "10/10/2020",
-        //        NumeroDocumento = "123456789",
-        //        PercentualJuros = "0",
-        //        PercentualMulta = "0",
-        //        QntDiasJuros = 0,
-        //        QntDiasMulta = 0,
-        //        Valor = random.Next(1, 100).ToString(),
-        //        ValorJuros = 0
-        //    };
-
-        //    boleto.Cliente = new API.Intermeio.Models.Cliente()
-        //    {
-        //        NomeRazao = Guid.NewGuid().ToString(),
-        //        ApelidoEndereco = "endereco 01",
-        //        Bairro = "Tatuape",
-        //        Celular = "11949544145",
-        //        CEP = "03633020",
-        //        Cidade = "Sao Paulo",
-        //        Complemento = "Casa",
-        //        CpfCnpj = "43122377861",
-        //        DataDeNascimento = "27/02/1987",
-        //        Email = "jose@gmail.com",
-        //        Endereco = "Francisco Gonzales",
-        //        Estado = "SP",
-        //        Logradouro = "Rua",
-        //        Sexo = "M",
-        //        Numero = "94"
-
-        //    };
-
-        //    var split = new API.Intermeio.Models.SplitModel() { AbortarEmCasoDeErro = true };
-
-        //    var clientesSplit = new List<API.Intermeio.Models.SplitCliente>();
-
-        //    var clientSplit = new API.Intermeio.Models.SplitCliente()
-        //    {
-        //        NomeRazao = "Fabio Santos",
-        //        CpfCnpj = "43122377861",
-        //        Descricao = "teste",
-        //        Email = "fabio.g@inttecnologia.com.br",
-        //        Taxa = "16",
-        //        NotificarPorEmail = true,
-        //        NotificarPorSms = false,
-        //        Telefones = new List<API.Intermeio.Models.Telefone>()
-        //        {
-        //           new API.Intermeio.Models.Telefone()
-        //           {
-        //            Apelido = "Fabio",
-        //            DDD = "11",
-        //            Numero = "998789223"
-        //           }
-        //        },
-        //        ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()
-        //        {
-        //            Conta = "11111",
-        //            DigConta = "1",
-        //            Agencia = "2222",
-        //            DigAgencia = "2",
-        //            CodigoBanco = "12345"
-        //        },
-        //        TransferenciaAutomatica = new API.Intermeio.Models.TransferenciaAutomatica()
-        //        {
-        //            ACobrar = true,
-        //            EfetuarTefAutomatica = true,
-        //            Periodicidade = 1,
-        //            ValorMinimo = "100"
-        //        }
-        //    };
-
-        //    var clientSplit2 = new API.Intermeio.Models.SplitCliente()
-        //    {
-        //        NomeRazao = Guid.NewGuid().ToString(),
-        //        CpfCnpj = "43122377861",
-        //        Descricao = "teste",
-        //        Email = "fabio@teste.com.br",
-        //        Taxa = "20",
-        //        NotificarPorEmail = true,
-        //        NotificarPorSms = true,
-        //        Telefones = new List<API.Intermeio.Models.Telefone>()
-        //        {
-        //           new API.Intermeio.Models.Telefone()
-        //           {
-        //            Apelido = "Split 2",
-        //            DDD = "11",
-        //            Numero = "998789223"
-        //           }
-        //        },
-        //        ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()
-        //        {
-        //            Conta = "11111",
-        //            DigConta = "1",
-        //            Agencia = "2222",
-        //            DigAgencia = "2",
-        //            CodigoBanco = "12345"
-        //        },
-        //        TransferenciaAutomatica = new API.Intermeio.Models.TransferenciaAutomatica()
-        //        {
-        //            ACobrar = true,
-        //            EfetuarTefAutomatica = true,
-        //            Periodicidade = 1,
-        //            ValorMinimo = "100"
-        //        }
-        //    };
-
-        //    clientesSplit.Add(clientSplit);
-        //    clientesSplit.Add(clientSplit2);
-
-        //    split.Clientes = clientesSplit;
-
-        //    boleto.Split = split;
-
-        //    var configuracoes = new API.Intermeio.Models.Configuracoes()
-        //    {
-        //        EmissaoDigital = new API.Intermeio.Models.EmissaoDigital()
-        //        {
-        //            Email = "fabio.tecnologia@live.com",
-        //            Sms = new API.Intermeio.Models.Sms()
-        //            {
-        //                Celular = "11998789223",
-        //                Msg = "Teste Via API classe de teste"
-        //            }
-        //        }
-        //    };
-
-        //    //  boleto.Configuracoes = configuracoes;
-
-        //    return boleto;
-        //}
-
-
-
-        //Criando um methodo que vai retornar o Objeto ja preenchido
+        
+        //Criando um methodo que vai retornar o Objeto já preenchido
         private API.Intermeio.Models.BoletoModel MontarBoleto()
         {
 
             //Criando o objeto modelo onde será passado objetos do tipo Boleto, Cliente, SplitModel, Configuracoes
 
-            var boleto = new API.Intermeio.Models.BoletoModel();
+            var boletoModel = new API.Intermeio.Models.BoletoModel();
 
             //Criando um objeto do tipo Boleto e adicionando no modelo
             //Estou colocando um exemplo com dados fictícios
-            boleto.Boleto = new API.Intermeio.Models.Boleto()
+            boletoModel.Boleto = new API.Intermeio.Models.Boleto()
             {
                 DataVencimento = "10/10/2020",
                 NumeroDocumento = "123456789",
@@ -256,13 +196,13 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 PercentualMulta = "0",
                 QntDiasJuros = 0,
                 QntDiasMulta = 0,
-                Valor = "020", //Ex: R$ 0,20 caso queira colocar um valor de R$ 4500,68 colocar número inteiro sem pontuação Ex.450068
+                Valor = new Random().Next(1, 200).ToString(), //"020" R$ 0,20 caso queira colocar um valor de R$ 4500,68 colocar número inteiro sem pontuação Ex.450068
                 ValorJuros = 0
             };
 
             //Criando um objeto do tipo Cliente e adicionando no modelo
             //Estou colocando um exemplo com dados fictícios
-            boleto.Cliente = new API.Intermeio.Models.Cliente()
+            boletoModel.Cliente = new API.Intermeio.Models.Cliente()
             {
                 NomeRazao = "Zezinho Juarez",
                 ApelidoEndereco = "endereco 01",
@@ -281,11 +221,10 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 Numero = "94"
             };
 
-            //Este Objeto não é obrigatório, caso deseje fazer um split
             //Criando um Objeto Split Model
-            var split = new API.Intermeio.Models.SplitModel();
+            var splitModel = new API.Intermeio.Models.SplitModel();
             //Este parametro e muito importante quando está marcado como true, qualquer erro que houver na hora do split ele aborta o processo de geração do boleto
-            split.AbortarEmCasoDeErro = true;
+            splitModel.AbortarEmCasoDeErro = true;
             //Dentro do Split um dos objetos que ele recebe é uma lista de clientes, aqui estamos criando uma lista para preencher 2 clientes
             var clientesSplit = new List<API.Intermeio.Models.SplitCliente>();
             //Criando o primeiro objeto do cliente que vai ficar dentro do Split
@@ -300,15 +239,15 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 NotificarPorSms = false,
                 //Criando um objeto lista do tipo telefone onde 1 cliente pode ter varios telefones
                 Telefones = new List<API.Intermeio.Models.Telefone>()
-                      {
-                        //Criando objeto do tipo telefone
-                        new API.Intermeio.Models.Telefone()
-                        {
-                            Apelido = "Fabio",
-                            DDD = "11",
-                            Numero = "988886666"
-                        }
-                 },
+{
+//Criando objeto do tipo telefone
+new API.Intermeio.Models.Telefone()
+{
+    Apelido = "Fabio",
+    DDD = "11",
+    Numero = "988886666"
+}
+},
                 //Criar o objeto do tipo conta do cliente para o split
                 ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()
                 {
@@ -339,14 +278,14 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 NotificarPorSms = true,
                 //Criando objeto do tipo telefone para o segundo cliente split
                 Telefones = new List<API.Intermeio.Models.Telefone>()
-            {
-                    new API.Intermeio.Models.Telefone()
-                    {
-                        Apelido = "Split 2",
-                        DDD = "11",
-                        Numero = "922221111"
-                    }
-                },
+{
+new API.Intermeio.Models.Telefone()
+{
+    Apelido = "Split 2",
+    DDD = "11",
+    Numero = "922221111"
+}
+},
                 //Criar o objeto do tipo conta para o segundo cliente split
                 ClienteContaBancaria = new API.Intermeio.Models.ClienteContaBancaria()
                 {
@@ -369,8 +308,9 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
             clientesSplit.Add(clientSplit);
             clientesSplit.Add(clientSplit2);
             //Adicionando no obejto Split Model o split preenchido com os dados dos clientes
-            split.Clientes = clientesSplit;
-            //Adicionando o objeto split no modelo boleto boleto.Split = split;
+            splitModel.Clientes = clientesSplit;
+            //Adicionando o objeto split no modelo boleto
+            boletoModel.Split = splitModel;
             //Criando objeto configurações do modelo boleto
             var configuracoes = new API.Intermeio.Models.Configuracoes()
             {
@@ -387,11 +327,10 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 }
             };
             //Adicionado as configurações do boleto no objeto Boleto
-            boleto.Configuracoes = configuracoes;
+            boletoModel.Configuracoes = configuracoes;
             //Retornando o objeto(Boleto) todo preenchido pronto para gerar o boleto
-            return boleto;
+            return boletoModel;
         }
-
 
     }
 }

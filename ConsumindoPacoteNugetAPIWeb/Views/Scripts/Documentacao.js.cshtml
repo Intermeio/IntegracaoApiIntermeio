@@ -3,12 +3,6 @@
 
     jQuery(document).ready(function () {
         ModuloDocumentacao.RegistrarEventos();
-
-        $(document).ready(function () {
-            $('.img-responsive').on("click", function () {
-                $(this).toggleClass('maxSize')
-            });
-        });
     });
 
     ModuloDocumentacao.RegistrarEventos = function () {
@@ -27,6 +21,9 @@
         jQuery(document).on("click", "#MenuGerarBoletoUnitario", function () {
             ModuloDocumentacao.ExibirMenu("#moduloGerarBoletoUnitario");
         });
+        jQuery(document).on("click", "#MenuGerarBoletoLote", function () {
+            ModuloDocumentacao.ExibirMenu("#moduloGerarBoletoLote");
+        });
       
 
     };
@@ -37,6 +34,7 @@
         jQuery("#moduloUtilizarPacoteNuget").hide();
         jQuery("#moduloConfiguracaoDadosCliente").hide();
         jQuery("#moduloMontarObjetoBoleto").hide();
+        jQuery("#moduloGerarBoletoLote").hide();
         jQuery(menu).show();
     }
 

@@ -37,7 +37,7 @@
             method: 'POST',
             url: '@Url.Action("GerarToken","Home")'
            }).done(function (dataAjax) {
-             //  jQuery("#txtAreaToken").append(JSON.stringify(dataAjax));
+            console.log(JSON.stringify(dataAjax))
             jQuery("#txtAreaToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
             jQuery("#txtAreaToken").append('Paginação: ' + dataAjax.Paginacao + ' \n');
             if (dataAjax.Resultado != null) {
@@ -57,17 +57,22 @@
                 method: "POST",
                 url: '@Url.Action("GerarBoleto", "Home")'
             }).done(function (dataAjax) {
+                console.log(JSON.stringify(dataAjax))
                 jQuery("#txtAreaBoleto").append('Requisição: ' + dataAjax.Requisicao + ' \n');
                 jQuery("#txtAreaBoleto").append('Paginação:  ' + dataAjax.Paginacao + ' \n');
-                jQuery("#txtAreaBoleto").append('HashBoleto:  ' + dataAjax.Resultado.HashBoleto + ' \n');
-                jQuery("#txtAreaBoleto").append('HashSimplificado:  ' + dataAjax.Resultado.HashSimplificado + ' \n');
-                jQuery("#txtAreaBoleto").append('LinhaDigitavel:  ' + dataAjax.Resultado.LinhaDigitavel + ' \n');
-                jQuery("#txtAreaBoleto").append('CodigoDeBarras:  ' + dataAjax.Resultado.CodigoDeBarras + ' \n');
-                jQuery("#txtAreaBoleto").append('NossoNumero:  ' + dataAjax.Resultado.NossoNumero + ' \n');
-                jQuery("#txtAreaBoleto").append('RefNumeroDocumento:  ' + dataAjax.Resultado.RefNumeroDocumento + ' \n');
-                jQuery("#txtAreaBoleto").append('RefToken:  ' + dataAjax.Resultado.RefToken + ' \n');
-                jQuery("#txtAreaBoleto").append('Split:  ' + dataAjax.Resultado.Split + ' \n');
-                jQuery("#txtAreaBoleto").append('caminhoBoleto:  ' + dataAjax.Resultado.caminhoBoleto + ' \n');
+                if (dataAjax.Resultado != null) {
+                    jQuery("#txtAreaBoleto").append('HashBoleto:  ' + dataAjax.Resultado.HashBoleto + ' \n');
+                    jQuery("#txtAreaBoleto").append('HashSimplificado:  ' + dataAjax.Resultado.HashSimplificado + ' \n');
+                    jQuery("#txtAreaBoleto").append('LinhaDigitavel:  ' + dataAjax.Resultado.LinhaDigitavel + ' \n');
+                    jQuery("#txtAreaBoleto").append('CodigoDeBarras:  ' + dataAjax.Resultado.CodigoDeBarras + ' \n');
+                    jQuery("#txtAreaBoleto").append('NossoNumero:  ' + dataAjax.Resultado.NossoNumero + ' \n');
+                    jQuery("#txtAreaBoleto").append('RefNumeroDocumento:  ' + dataAjax.Resultado.RefNumeroDocumento + ' \n');
+                    jQuery("#txtAreaBoleto").append('RefToken:  ' + dataAjax.Resultado.RefToken + ' \n');
+                    jQuery("#txtAreaBoleto").append('Split:  ' + dataAjax.Resultado.Split + ' \n');
+                    jQuery("#txtAreaBoleto").append('caminhoBoleto:  ' + dataAjax.Resultado.caminhoBoleto + ' \n');
+                } else {
+                    jQuery("#txtAreaBoleto").append('Resultado: ' + dataAjax.Resultado + ' \n');
+                }                
                 jQuery('.modal').modal('hide');
                 window.open('http://intermeio.com.br/Boleto/' + dataAjax.Resultado.HashBoleto, "_blank");
 
@@ -89,7 +94,7 @@
             url: '@Url.Action("GerarBoletoToken", "Home")',
             data: { token : token}
         }).done(function (dataAjax) {
-
+            console.log(JSON.stringify(dataAjax))
             jQuery("#txtAreaBoletoToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
             jQuery("#txtAreaBoletoToken").append('Paginação:  ' + dataAjax.Paginacao + ' \n');
             if (dataAjax.Resultado != null) {
@@ -121,6 +126,7 @@
                 method: "POST",
                 url: '@Url.Action("GerarBoletoLote", "Home")'
             }).done(function (dataAjax) {
+                console.log(JSON.stringify(dataAjax))
                 jQuery("#txtAreBoletoLote").append('Requisição: ' + dataAjax.Requisicao + ' \n');
                 jQuery("#txtAreBoletoLote").append('Paginação:' + dataAjax.Paginacao + ' \n');
                 jQuery("#txtAreBoletoLote").append('Descrição:' + dataAjax.Resultado.descricao + ' \n');
@@ -144,6 +150,7 @@
                 url: '@Url.Action("GerarBoletoLoteToken", "Home")',
                 data: { token: token },
             }).done(function (dataAjax) {
+                console.log(JSON.stringify(dataAjax))
                 jQuery("#txtAreaBoletoLoteToken").append('Requisição: ' + dataAjax.Requisicao + ' \n');
                 jQuery("#txtAreaBoletoLoteToken").append('Paginação:' + dataAjax.Paginacao + ' \n');
                 if (dataAjax.Resultado != null) {
