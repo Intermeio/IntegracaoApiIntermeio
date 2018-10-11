@@ -211,7 +211,7 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
                 CEP = "03633020",
                 Cidade = "Sao Paulo",
                 Complemento = "Casa",
-                CpfCnpj = "43122377861",
+                CpfCnpj = "02130040896",
                 DataDeNascimento = "27/02/1987",
                 Email = "jose@gmail.com",
                 Endereco = "Francisco Gonzales",
@@ -231,7 +231,7 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
             var clientSplit = new API.Intermeio.Models.SplitCliente()
             {
                 NomeRazao = "Fabio Santos",
-                CpfCnpj = "43122377861",
+                CpfCnpj = "02130040896",
                 Descricao = "teste",
                 Email = "teste@teste.com.br",
                 Taxa = "16",
@@ -270,7 +270,7 @@ new API.Intermeio.Models.Telefone()
             var clientSplit2 = new API.Intermeio.Models.SplitCliente()
             {
                 NomeRazao = "Fulano da Silva",
-                CpfCnpj = "43122377861",
+                CpfCnpj = "02130040896",
                 Descricao = "teste",
                 Email = "Fulano@teste.com.br",
                 Taxa = "20",
