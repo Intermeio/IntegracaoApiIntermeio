@@ -191,7 +191,7 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
             boletoModel.Boleto = new API.Intermeio.Models.Boleto()
             {
                 DataVencimento = "10/10/2020",
-                NumeroDocumento = "123456789",
+                NumeroDocumento = "10864619-7",
                 PercentualJuros = "0",
                 PercentualMulta = "0",
                 QntDiasJuros = 0,
@@ -204,17 +204,17 @@ namespace ConsumindoPacoteNugetAPIWeb.Controllers
             //Estou colocando um exemplo com dados fictícios
             boletoModel.Cliente = new API.Intermeio.Models.Cliente()
             {
-                NomeRazao = "Zezinho Juarez",
+                NomeRazao = "Juarez12",
                 ApelidoEndereco = "endereco 01",
-                Bairro = "Tatuape",
+                Bairro = "juquia ze",
                 Celular = "11944445555",
-                CEP = "03633020",
-                Cidade = "Sao Paulo",
+                CEP = "08830010",
+                Cidade = "Sao",
                 Complemento = "Casa",
-                CpfCnpj = "02130040896",
+                CpfCnpj = "74136537000110",
                 DataDeNascimento = "27/02/1987",
-                Email = "jose@gmail.com",
-                Endereco = "Francisco Gonzales",
+                Email = "joseMaria@gmail.com",
+                Endereco = "Francisco",
                 Estado = "SP",
                 Logradouro = "Rua",
                 Sexo = "M",
